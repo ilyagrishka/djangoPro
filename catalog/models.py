@@ -23,11 +23,14 @@ class Product(models.Model):
     price = models.IntegerField(
         verbose_name="Цена продукта", help_text="Введите цену продукта"
     )
-    date_create = models.DateTimeField(
-        blank=True, verbose_name="Дата создания", help_text="Введите дату загрузки"
+    created_at = models.DateTimeField(
+        blank=True, verbose_name="Дата создания", help_text="Введите дату загрузки",
+        auto_now_add=True
+
     )
-    date_last_change = models.DateTimeField(
-        blank=True, verbose_name="Дата последнего изменения", help_text="Введите дату"
+    updated_at = models.DateTimeField(
+        blank=True, verbose_name="Дата последнего изменения", help_text="Введите дату",
+        auto_now=True
     )
 
     class Meta:
