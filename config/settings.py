@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +17,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_dump_load_utf8',
+    'django_dump_load_utf8',
 
     "catalog",
 ]
@@ -90,3 +91,4 @@ STATICFILES_DIRS = (BASE_DIR / "STATIC",)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = "media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
