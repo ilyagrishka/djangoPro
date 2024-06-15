@@ -1,7 +1,6 @@
-from msilib.schema import ListView, DetailView, CreateView
-from django.shortcuts import render, get_object_or_404
-
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.models import Product
+from django.urls import reverse_lazy
 
 
 class ProductListView(ListView):
@@ -21,18 +20,18 @@ class ProductDetail(DetailView):
 class ProductCreate(CreateView):
     model = Product
     fields = ("name", "description", "price")
-    success_url = reverse_lazy("products:product_list")
+    success_url = reverse_lazy("catalog:product_list")
 
 
 class ProductUpdateView(UpdateView):
     model = Product
     fields = ("name", "description", "price")
-    success_url = reverse_lazy("products:product_list")
+    success_url = reverse_lazy("catalog:product_list")
 
     def get_success_url(self):
-        return reverse_lazy("products:products_detail", args=[self.kwargs.get("pk")])
+        return reverse_lazy("catalog:products_detail", args=[self.kwargs.get("pk")])
 
 
-class ProductDeleteView(deleteView):
+class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy("products:product_list")
+    success_url = reverse_lazy("catalog:product_list")
