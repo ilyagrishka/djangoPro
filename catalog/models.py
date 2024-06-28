@@ -101,6 +101,10 @@ class BlogNote(models.Model):
         help_text="Укажите количество просмотров",
         default=0
     )
+    STATUS = (
+        ('published', 'Опубликовано'),
+        ('unpublished', 'Не опубликовано')
+    )
 
     class Meta:
         verbose_name = "Блог"

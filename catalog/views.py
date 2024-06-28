@@ -1,8 +1,11 @@
+from audioop import reverse
+
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, inlineformset_factory, VersionForm
+from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, BlogNote, Version
 from django.urls import reverse_lazy
+from django.forms import inlineformset_factory
 
 
 class ProductListView(ListView):
@@ -39,7 +42,7 @@ class ProductUpdateView(UpdateView):
         if self.request.method == "POST":
             context_data["formset"] = ProductFormset(self.request.POST, instance=self.object)
         else:
-            context_data["formset"] = ProductFormset( instance=self.object)
+            context_data["formset"] = ProductFormset(instance=self.object)
 
         return context_data
 
@@ -52,8 +55,7 @@ class ProductUpdateView(UpdateView):
             formset.save()
             return super().form_valid(form)
         else:
-            return self.render_to_response(self.get_context_data(form=form,formset=formset))
-
+            return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
 class ProductDeleteView(DeleteView):
@@ -80,6 +82,14 @@ class BlogNoteCreate(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
 
+    def form_valid(self, slug):
+        if form.is_valid():
+            new_blog = slug.save()
+            new_blog.slug = slugify()
+            new_blog.save()
+
+        return super().form_valid(slug)
+
 
 class BlogNoteUpdateView(UpdateView):
     model = BlogNote
@@ -87,7 +97,7 @@ class BlogNoteUpdateView(UpdateView):
     success_url = reverse_lazy("catalog:product_list")
 
     def get_success_url(self):
-        return reverse_lazy("catalog:products_detail", args=[self.kwargs.get("pk")])
+        return reverse("catalog:products_detail", args=[self.kwargs.get("pk")])
 
 
 class BlogNoteDeleteView(DeleteView):
