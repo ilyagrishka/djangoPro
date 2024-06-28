@@ -116,11 +116,9 @@ class BlogNote(models.Model):
 
 
 class Version(models.Model):
-    product = models.CharField(
-        max_length=100,
-        verbose_name="продукт",
-        help_text="Введите новый продукт",
-    )
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE,
+        verbose_name='версия')
 
     version_number = models.PositiveIntegerField(
         verbose_name="номер версии",
@@ -132,7 +130,7 @@ class Version(models.Model):
         verbose_name="номер версии",
     )
 
-    version_bull = models.BooleanField
+    version_bull = models.BooleanField()
 
     class Meta:
         verbose_name = "Версия"
@@ -141,4 +139,3 @@ class Version(models.Model):
 
     def __str__(self):
         return f"{self.product}-{self.version_name}"
-

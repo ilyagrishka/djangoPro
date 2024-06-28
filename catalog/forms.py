@@ -18,13 +18,12 @@ class ProductForm(ModelForm):
         model = Product
         exclude = ("views_counter",)
 
-    # def clean_first_name(self):
-    # cleaned_data = self.cleaned_data.get('name', "description")
-    # if "казино",
-    # "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар" in cleaned_data:
-    # raise forms.ValidationError('Ошибка, связанная с применением запрещённых слов')
-    #
-    # return cleaned_data
+    def clean_first_name(self):
+        cleaned_data = self.cleaned_data.get('name', "description")
+            if "казино","криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар" in cleaned_data:
+                raise forms.ValidationError('Ошибка, связанная с применением запрещённых слов')
+
+            return cleaned_data
 
 
 class VersionForm(ModelForm):
