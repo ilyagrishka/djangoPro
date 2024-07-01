@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Product(models.Model):
     name = models.CharField(
@@ -37,6 +39,8 @@ class Product(models.Model):
         help_text="Укажите количество просмотров",
         default=0
     )
+    owner = models.ForeignKey(User, verbose_name="Владелец", help_text="укажите владельца собаки",
+                              blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = "Продукт"
@@ -101,7 +105,7 @@ class BlogNote(models.Model):
         help_text="Укажите количество просмотров",
         default=0
     )
-    STATUS = (
+    publication_status = models.BooleanField(
         ('published', 'Опубликовано'),
         ('unpublished', 'Не опубликовано')
     )

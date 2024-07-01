@@ -6,6 +6,7 @@ from catalog.forms import ProductForm, VersionForm
 from catalog.models import Product, BlogNote, Version
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ProductListView(ListView):
@@ -22,10 +23,17 @@ class ProductDetail(DetailView):
         return self.object
 
 
-class ProductCreate(CreateView):
+class ProductCreate(CreateView, LoginRequiredMixin):
     model = Product
     fields = ("name", "description", "price")
     success_url = reverse_lazy("catalog:product_list")
+
+    def form_valid(self, form):
+        product = form.save()
+        user = self.request.user
+        product.owner = user
+        product.save()
+        return super().form_valid(form)
 
 
 class ProductUpdateView(UpdateView):

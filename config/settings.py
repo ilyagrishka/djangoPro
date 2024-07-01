@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django_dump_load_utf8',
 
     "catalog",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -92,3 +93,17 @@ STATICFILES_DIRS = (BASE_DIR / "STATIC",)
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+AUTH_USER_MODEL = "user.User"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "ilia.grigoriev2018@yandex.ru"
+EMAIL_HOST_PASSWORD = "mikgnhgohauhqusa"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
