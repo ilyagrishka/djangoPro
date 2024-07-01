@@ -7,8 +7,8 @@ from users.views import UserCreate, email_verification
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path("login/", LoginView.as_view(template_name="login.html"),name="login"),
+    path("login/", LoginView.as_view(template_name="login.html"), name="login"),
     path("logout/", LogoutView.as_view(template_name="login.html")),
     path("register/", UserCreate.as_view()),
-    path("email-confirm/<str:token>/", email_verification,name="email-confirm")
+    path("email-confirm/<str:token>/", email_verification, name="email-confirm")
 ]
