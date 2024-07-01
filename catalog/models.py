@@ -105,9 +105,8 @@ class BlogNote(models.Model):
         help_text="Укажите количество просмотров",
         default=0
     )
-    publication_status = models.BooleanField(
-        ('published', 'Опубликовано'),
-        ('unpublished', 'Не опубликовано')
+    publication_status = models.BooleanField(default=False,
+
     )
 
     class Meta:
@@ -134,7 +133,7 @@ class Version(models.Model):
         verbose_name="номер версии",
     )
 
-    version_bull = models.BooleanField()
+    version_bull = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Версия"
