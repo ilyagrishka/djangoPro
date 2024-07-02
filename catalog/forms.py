@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 
 from catalog.models import Product, Version
+from users import forms
 
 
 class StyleFormMixin:
@@ -16,13 +17,14 @@ class StyleFormMixin:
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        exclude = ("views_counter","owner")
+        exclude = ("views_counter", "owner")
 
     def clean_first_name(self):
         cleaned_data = self.cleaned_data.get('name', "description")
-        if ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция",
-            "радар"] in cleaned_data:
-            raise forms.ValidationError('Ошибка, связанная с применением запрещённых слов')
+        list_of_word = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
+        for word in list_of_word:
+            if word in cleaned_data:
+                raise forms.ValidationError('Ошибка, связанная с применением запрещённых слов')
 
         return cleaned_data
 

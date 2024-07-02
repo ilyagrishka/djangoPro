@@ -8,7 +8,7 @@ from users.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 import secrets
-import django.core.send_mail
+from django.core.mail import send_mail
 
 
 class UserCreate(CreateView):
@@ -24,13 +24,13 @@ class UserCreate(CreateView):
         user.save()
         host = self.request.get_host()
         url = f"http://{host}/users/email-confirms/{token}/"
-         send_mail(
+        send_mail(
              subject="подтверждение почты",
              message=f"перейди по ссылке {url}",
              from_email=EMAIL_HOST_USER,
              recipient_list=[user.email]
          )
-         return super().form_valid(form)
+        return super().form_valid(form)
 
 
 def email_verification(request, token):
