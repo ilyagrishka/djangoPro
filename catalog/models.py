@@ -39,8 +39,7 @@ class Product(models.Model):
         help_text="Укажите количество просмотров",
         default=0
     )
-    owner = models.ForeignKey(User, verbose_name="Владелец", help_text="укажите владельца собаки",
-                              blank=True, null=True, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(User, verbose_name="Владелец", blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = "Продукт"
@@ -107,7 +106,7 @@ class BlogNote(models.Model):
     )
     publication_status = models.BooleanField(default=False,
 
-    )
+                                             )
 
     class Meta:
         verbose_name = "Блог"

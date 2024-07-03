@@ -1,14 +1,12 @@
 from django.forms import ModelForm
-
 from catalog.models import Product, Version
-from users import forms
 
 
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for fild_name, fild in self.fields.item():
-            if isinstance(fild, BooleanField):
+            if isinstance(fild):
                 fild.widget.attrs["class"] = "form-check-input"
             else:
                 fild.widget.attrs["class"] = "form-control"

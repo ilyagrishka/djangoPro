@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from catalog.models import Category, Product
 import json
+from django.conf import settings
+import os
 
 
 class Command(BaseCommand):
@@ -42,7 +44,8 @@ class Command(BaseCommand):
 
     @staticmethod
     def read_json():
-        path = "/catalog/fixture/catalog.json"
+        path = settings.BASE_DIR + "/catalog/fixture/catalog.json"
+        #path = os.path.join(settings.BASE_DIR, "/catalog/fixture/catalog.json")
         with open(path, "r") as file:
             data = json.load(file)
             return data

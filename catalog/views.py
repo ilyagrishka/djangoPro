@@ -74,6 +74,11 @@ class ProductDeleteView(DeleteView):
 class BlogNoteListView(ListView):
     model = BlogNote
 
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(publication_status=True)
+        return queryset
+
 
 class BlogNoteDetail(DetailView):
     model = BlogNote

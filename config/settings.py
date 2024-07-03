@@ -56,7 +56,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "screencast",
+        'NAME': "newscreencast",
         "USER": 'postgres',
         'PASSWORD': "0014",
         'HOST': "localhost",
