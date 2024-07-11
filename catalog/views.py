@@ -7,20 +7,30 @@ from catalog.models import Product, BlogNote, Version
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
+from slugify import slugify
+from catalog.forms import ProductModeratorForm
+from django.core.exceptions import PermissionDenied
+
+from catalog.services import get_product_from_cache
 
 
 class ProductListView(ListView):
     model = Product
 
+    def get_queryset(self):
+        return get_product_from_cache()
 
-class ProductDetail(DetailView):
+
+class ProductDetail(DetailView, LoginRequiredMixin):
     model = Product
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        self.object.views_counter += 1
-        self.object.save()
-        return self.object
+        if self.request.user == self.object.owner:
+            self.object.views_counter += 1
+            self.object.save()
+            return self.object
+        raise PermissionDenied
 
 
 class ProductCreate(CreateView, LoginRequiredMixin):
@@ -36,7 +46,7 @@ class ProductCreate(CreateView, LoginRequiredMixin):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     fields = ("name", "description", "price")
     success_url = reverse_lazy("catalog:product_list")
@@ -64,6 +74,14 @@ class ProductUpdateView(UpdateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm("category.can_edit_product") and user.has_perm("category.can_edit_description"):
+            return ProductModeratorForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(DeleteView):
@@ -95,13 +113,13 @@ class BlogNoteCreate(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy("catalog:product_list")
 
-    def form_valid(self, slug):
+    def form_valid(self, form):
         if form.is_valid():
-            new_blog = slug.save()
-            new_blog.slug = slugify()
-            new_blog.save()
+            new_form = form.save()
+            new_form.slug = slugify(new_form.name)
+            new_form.save()
 
-        return super().form_valid(slug)
+        return super().form_valid(form)
 
 
 class BlogNoteUpdateView(UpdateView):

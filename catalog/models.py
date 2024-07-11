@@ -66,6 +66,10 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
         ordering = ["name"]
+        permissions = [
+            ("can_edit_product", "can edit product"),
+            ("can_edit_description","can edit description")
+        ]
 
     def __str__(self):
         return f"{self.name}-{self.description}"
