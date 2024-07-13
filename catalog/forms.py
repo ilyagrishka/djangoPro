@@ -1,6 +1,6 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, BooleanField,ValidationError
 from catalog.models import Product, Version
-from users import forms
+
 
 
 class StyleFormMixin:
@@ -29,7 +29,7 @@ class ProductModeratorForm(ModelForm):
         list_of_word = ["казино", "криптовалюта", "крипта", "биржа", "дешево", "бесплатно", "обман", "полиция", "радар"]
         for word in list_of_word:
             if word in cleaned_data:
-                raise forms.ValidationError('Ошибка, связанная с применением запрещённых слов')
+                raise ValidationError('Ошибка, связанная с применением запрещённых слов')
 
         return cleaned_data
 

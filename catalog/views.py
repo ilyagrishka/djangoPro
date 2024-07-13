@@ -125,7 +125,7 @@ class BlogNoteCreate(CreateView):
 class BlogNoteUpdateView(UpdateView):
     model = BlogNote
     form_class = ProductForm
-    success_url = reverse_lazy("catalog:product_list")
+    # success_url = reverse_lazy("catalog:product_list")
 
     def get_success_url(self):
         return reverse("catalog:products_detail", args=[self.kwargs.get("pk")])

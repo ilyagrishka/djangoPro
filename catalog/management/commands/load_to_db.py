@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from django.core.management.base import BaseCommand
 from catalog.models import Category, Product
 import json
@@ -44,8 +46,9 @@ class Command(BaseCommand):
 
     @staticmethod
     def read_json():
-        path = settings.BASE_DIR + "/catalog/fixture/catalog.json"
-        #path = os.path.join(settings.BASE_DIR, "/catalog/fixture/catalog.json")
-        with open(path, "r") as file:
-            data = json.load(file)
+        path = str(settings.BASE_DIR) + "/catalog/fixture/data.json"
+        # path = os.path.join(settings.BASE_DIR, "/catalog/fixture/catalog.json")
+        with open(path, "r",encoding="utf-8") as file:
+            pprint(file.read())
+            data = json.loads(file.read())
             return data
