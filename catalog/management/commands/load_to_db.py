@@ -28,6 +28,9 @@ class Command(BaseCommand):
         Category.objects.bulk_create(category_for_create)
 
         for product in Command.json_read_products():
+            cat_id = product["fields"]["category"]
+            print(cat_id)
+            product["fields"]["category"] = Category.objects.get(pk=cat_id)
             product_for_create.append(
                 Product(**product["fields"])
             )
@@ -49,6 +52,5 @@ class Command(BaseCommand):
         path = str(settings.BASE_DIR) + "/catalog/fixture/data.json"
         # path = os.path.join(settings.BASE_DIR, "/catalog/fixture/catalog.json")
         with open(path, "r",encoding="utf-8") as file:
-            pprint(file.read())
-            data = json.loads(file.read())
+            data = json.load(file)
             return data

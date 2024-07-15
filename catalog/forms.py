@@ -1,6 +1,5 @@
-from django.forms import ModelForm, BooleanField,ValidationError
+from django.forms import ModelForm, BooleanField, ValidationError
 from catalog.models import Product, Version
-
 
 
 class StyleFormMixin:
@@ -22,7 +21,7 @@ class ProductForm(ModelForm):
 class ProductModeratorForm(ModelForm):
     class Meta:
         model = Product
-        fields = ("description", "name")
+        fields = ("description", "category", "publication_status")
 
     def clean_first_name(self):
         cleaned_data = self.cleaned_data.get('name', "description")

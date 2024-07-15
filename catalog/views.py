@@ -7,7 +7,7 @@ from catalog.models import Product, BlogNote, Version
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
-from slugify import slugify
+from pytils import slugify
 from catalog.forms import ProductModeratorForm
 from django.core.exceptions import PermissionDenied
 
@@ -91,6 +91,7 @@ class ProductDeleteView(DeleteView):
 
 class BlogNoteListView(ListView):
     model = BlogNote
+    template_name = "catalog/blog_list.html"
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -100,6 +101,7 @@ class BlogNoteListView(ListView):
 
 class BlogNoteDetail(DetailView):
     model = BlogNote
+    template_name = "catalog/blog_details.html"
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -125,6 +127,7 @@ class BlogNoteCreate(CreateView):
 class BlogNoteUpdateView(UpdateView):
     model = BlogNote
     form_class = ProductForm
+
     # success_url = reverse_lazy("catalog:product_list")
 
     def get_success_url(self):
@@ -134,3 +137,4 @@ class BlogNoteUpdateView(UpdateView):
 class BlogNoteDeleteView(DeleteView):
     model = Product
     success_url = reverse_lazy("catalog:product_list")
+

@@ -1,9 +1,15 @@
 from django.db import models
 
 from users.models import User
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
-class Product(models.Model):
+class Product(models.Model, UserPassesTestMixin):
+    permissions = [
+        ("can_edit_product", "can edit product"),
+        ("can_edit_description", "can edit description"),
+        ("can_change_category", "can change category")
+    ]
     name = models.CharField(
         max_length=100,
         verbose_name="Название продукта",
@@ -40,6 +46,10 @@ class Product(models.Model):
         default=0
     )
     owner = models.ForeignKey(User, verbose_name="Владелец", blank=True, null=True, on_delete=models.SET_NULL)
+    publication_status = models.BooleanField(default=False, verbose_name="статус публикации")
+
+    def test_func(self):
+        return self.user.is_superuser
 
     class Meta:
         verbose_name = "Продукт"
@@ -66,10 +76,6 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
         ordering = ["name"]
-        permissions = [
-            ("can_edit_product", "can edit product"),
-            ("can_edit_description","can edit description")
-        ]
 
     def __str__(self):
         return f"{self.name}-{self.description}"
