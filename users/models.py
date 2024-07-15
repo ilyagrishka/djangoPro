@@ -4,7 +4,7 @@ from .managers import CustomUserManager
 
 
 class User(AbstractUser):
-    # username = None
+    username = None
     email = models.EmailField(unique=True, verbose_name="Email")
 
     avatar = models.ImageField(upload_to="users/avatars/", verbose_name="аватар", blank=True, null=True)

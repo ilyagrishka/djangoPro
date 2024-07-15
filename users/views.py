@@ -1,11 +1,11 @@
-from audioop import reverse
+
 
 from django.shortcuts import render, get_object_or_404, redirect
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
 from users.models import User
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy,reverse
 from django.views.generic import CreateView
 import secrets
 from django.core.mail import send_mail
@@ -34,6 +34,8 @@ class UserCreate(CreateView):
 
 
 def email_verification(request, token):
+
     user = get_object_or_404(User, token=token)
     user.is_active = True
+    user.save()
     return redirect(reverse("users:login"))
