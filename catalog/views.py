@@ -7,7 +7,7 @@ from catalog.models import Product, BlogNote, Version
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
-from pytils import slugify
+from django.utils.text import slugify
 from catalog.forms import ProductModeratorForm
 from django.core.exceptions import PermissionDenied
 

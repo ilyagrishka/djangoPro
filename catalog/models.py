@@ -5,11 +5,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 class Product(models.Model, UserPassesTestMixin):
-    permissions = [
-        ("can_edit_product", "can edit product"),
-        ("can_edit_description", "can edit description"),
-        ("can_change_category", "can change category")
-    ]
+
     name = models.CharField(
         max_length=100,
         verbose_name="Название продукта",
@@ -55,6 +51,11 @@ class Product(models.Model, UserPassesTestMixin):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ["name", "price"]
+        permissions = [
+            ("can_edit_product", "can edit product"),
+            ("can_edit_description", "can edit description"),
+            ("can_change_category", "can change category")
+        ]
 
     def __str__(self):
         return f"{self.name}-{self.description}"
